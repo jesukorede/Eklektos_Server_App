@@ -6,7 +6,7 @@ const app = express();
 
 // Allow CORS from your frontend URL (replace with actual URL for production)
 app.use(cors({
-    origin: 'https://your-frontend-url.com' // Replace with your frontend URL
+    origin: 'https://jesukorede.github.io/Meeting_Frontend/' // Replace with your frontend URL
 }));
 
 app.use(express.json());
