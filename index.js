@@ -4,9 +4,9 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
-// Allow CORS from your frontend URL (replace with actual URL for production)
+// Allow CORS from your frontend URL (generalize URL to avoid exact path mismatch)
 app.use(cors({
-    origin: 'https://jesukorede.github.io/Meeting_Frontend/' // Replace with your frontend URL
+    origin: 'https://jesukorede.github.io/Meeting_Frontend/' // Allow requests from the base domain
 }));
 
 app.use(express.json());
