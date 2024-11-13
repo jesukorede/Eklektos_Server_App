@@ -1,8 +1,17 @@
 const express = require('express');
+const helmet = require('helmet');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 
 const app = express();
+
+app.use(helmet({
+    permissionsPolicy: {
+      features: {
+        // Remove 'interest-cohort' by not setting it at all, or set it to an empty array
+      }
+    }
+  }));
 
 // Allow CORS from your frontend URL (generalize URL to avoid exact path mismatch)
 app.use(cors({
