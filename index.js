@@ -5,22 +5,22 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
+// Configure Helmet with basic settings
 app.use(helmet({
-    permissionsPolicy: {
-      features: {
-        // Remove 'interest-cohort' by not setting it at all, or set it to an empty array
-      }
-    }
-  }));
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
-// Allow CORS from your frontend URL (generalize URL to avoid exact path mismatch)
+// Allow CORS only from your frontend base URL
 app.use(cors({
-    origin: 'https://jesukorede.github.io/Meeting_Frontend/' // Allow requests from the base domain
+    origin: 'https://jesukorede.github.io/Meeting_Frontend/', // Update this to your frontend domain
+    methods: ['GET', 'POST'], // Specify allowed HTTP methods
+    credentials: true // If you need to allow cookies or authorization headers
 }));
 
 app.use(express.json());
 
-const userData = new Map(); // Maps uniqueCode to { name, email }
+const userData = new Map(); // Stores uniqueCode with { name, email }
 
 // Endpoint to generate a unique code for a new user
 app.post('/generate-code', (req, res) => {
@@ -31,7 +31,7 @@ app.post('/generate-code', (req, res) => {
         return res.status(400).json({ message: "Name and email are required." });
     }
 
-    // Check if the email already exists in our stored user data
+    // Check if email already exists in stored data
     const emailAlreadyExists = [...userData.values()].some(user => user.email === email);
     if (emailAlreadyExists) {
         return res.status(400).json({ message: "A code has already been generated for this email." });
@@ -40,7 +40,7 @@ app.post('/generate-code', (req, res) => {
     // Generate a unique code for the user
     const uniqueCode = uuidv4();
 
-    // Store the user's data with the generated code
+    // Store the user data with the generated code
     userData.set(uniqueCode, { name, email, created: Date.now() });
 
     // Send back the unique code
@@ -59,5 +59,6 @@ app.get('/verify-code', (req, res) => {
     }
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
