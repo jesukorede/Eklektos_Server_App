@@ -13,7 +13,7 @@ app.use(helmet({
 
 // Allow CORS only from your frontend base URL
 app.use(cors({
-    origin: 'https://jesukorede.github.io/Meeting_Frontend/', // Update this to your frontend domain
+    origin: 'https://jesukorede.github.io', // Update this to your frontend domain
     methods: ['GET', 'POST'], // Specify allowed HTTP methods
     credentials: true // If you need to allow cookies or authorization headers
 }));
